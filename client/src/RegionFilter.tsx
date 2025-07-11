@@ -2,8 +2,6 @@ import React from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { STATE_LABELS } from "./maps";
 
-STATE_LABELS
-
 export default function MultipleRegionSelect({
   regions,
   onChange,

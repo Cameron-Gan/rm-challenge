@@ -1,8 +1,11 @@
+import { type Theme, useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
+import { FUELTECH_LABELS } from "./maps";
+import type { UnitFueltechType } from "./types";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -15,16 +18,16 @@ const MenuProps = {
   },
 };
 
-const status_list = ["committed", "operating", "retired"];
+const fueltech_ids = Object.keys(FUELTECH_LABELS) as UnitFueltechType[];
 
-export default function MultipleStatusSelect({
-  statuses,
+export default function MultipleFuelTechSelect({
+  fueltechs,
   onChange,
 }: {
-  statuses: string[];
-  onChange: (newStatuses: string[]) => void;
+  fueltechs: string[];
+  onChange: (newFuelTechs: string[]) => void;
 }) {
-  const handleChange = (event: SelectChangeEvent<typeof statuses>) => {
+  const handleChange = (event: SelectChangeEvent<typeof fueltechs>) => {
     const {
       target: { value },
     } = event;
@@ -37,19 +40,19 @@ export default function MultipleStatusSelect({
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-name-label">Status</InputLabel>
+        <InputLabel id="demo-multiple-name-label">FuelTech</InputLabel>
         <Select
           labelId="demo-multiple-name-label"
           id="demo-multiple-name"
           multiple
-          value={statuses}
+          value={fueltechs}
           onChange={handleChange}
-          input={<OutlinedInput label="Status" />}
+          input={<OutlinedInput label="FuelTech" />}
           MenuProps={MenuProps}
         >
-          {status_list.map((status) => (
-            <MenuItem key={status} value={status}>
-              {status}
+          {fueltech_ids.map((fueltech) => (
+            <MenuItem key={fueltech} value={fueltech}>
+              {FUELTECH_LABELS[fueltech]}
             </MenuItem>
           ))}
         </Select>

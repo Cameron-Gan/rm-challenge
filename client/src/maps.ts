@@ -1,5 +1,4 @@
 import type {
-  FacilityUnit,
   NetworkRegion,
   UnitFueltechType,
   UnitStatusType,
@@ -8,7 +7,7 @@ import type {
 // ChatGTP suggestion
 export const FUELTECH_LABELS: Record<UnitFueltechType, string> = {
   battery_charging: "Battery",
-  battery_discharging: "Battery Discharging",
+//   battery_discharging: "Battery Discharging", Removed duplicated battery charging battery discharging in the BE
   bioenergy_biogas: "Bioenergy (Biogas)",
   bioenergy_biomass: "Bioenergy (Biomass)",
   coal_black: "Black Coal",
@@ -27,7 +26,6 @@ export const FUELTECH_LABELS: Record<UnitFueltechType, string> = {
   nuclear: "Nuclear",
   wind: "Wind (Onshore)",
   wind_offshore: "Wind (Offshore)",
-  interconnector: "Interconnector",
 };
 // end suggestion
 

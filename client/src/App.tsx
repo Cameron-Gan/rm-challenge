@@ -1,13 +1,24 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-import { DataGrid, type GridColDef } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  getGridDateOperators,
+  GRID_DATE_COL_DEF,
+  GridEditDateCell,
+  type GridColDef,
+  type GridColTypeDef,
+  type GridFilterInputValueProps,
+} from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-import React from "react";
 import type { FacilityUnit } from "./types.ts";
 import { FUELTECH_LABELS, STATE_LABELS, STATUS_LABELS } from "./maps.ts";
-import MultipleStatusSelect from "./StatusFilter.tsx";
 import MultipleRegionSelect from "./RegionFilter.tsx";
+import MultipleStatusSelect from "./statusFilter.tsx";
+import MultipleFuelTechSelect from "./FuelTechFilter.tsx";
+import { enAU as locale } from "date-fns/locale";
+import { format } from "date-fns";
+import { DateTimePicker, DatePicker } from "@mui/x-date-pickers";
+import { Stack } from "@mui/material";
 
 function App() {
   const [facilities, setFacilities] = useState<FacilityUnit[]>([]);
@@ -15,13 +26,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [statuses, setStatuses] = useState<string[]>([]);
   const [regions, setRegions] = useState<string[]>([]);
-
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newRegions: string[]
-  ) => {
-    setRegions(newRegions);
-  };
+  const [fueltechs, setFuelTechs] = useState<string[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -55,7 +60,10 @@ function App() {
     const inStatus =
       statuses.length === 0 || statuses.includes(facility.status_id);
 
-    return inRegion && inStatus;
+    const inFuelTech =
+      fueltechs.length === 0 || fueltechs.includes(facility.fueltech_id);
+
+    return inRegion && inStatus && inFuelTech;
   });
 
   const table_columns: GridColDef[] = [
@@ -88,10 +96,30 @@ function App() {
       rowSpanValueGetter: (value, row) => {
         return row ? `${row.id}-${row.status}` : value;
       },
-      type: "singleSelect",
-      valueOptions: ["Committed", "Operating", "Retired"],
       width: 200,
       filterable: false,
+    },
+    {
+      field: "data_first_seen",
+      valueFormatter: (value) => {
+        if (value) {
+          return format(value, "MM/dd/yyyy", { locale });
+        }
+        return "";
+      },
+      headerName: "Commencement Date",
+      width: 200,
+    },
+    {
+      field: "data_last_seen",
+      valueFormatter: (value) => {
+        if (value) {
+          return format(value, "MM/dd/yyyy", { locale });
+        }
+        return "";
+      },
+      headerName: "Last Updated",
+      width: 200,
     },
     {
       field: "capacity",
@@ -116,6 +144,12 @@ function App() {
         ? STATUS_LABELS[facility.status_id]
         : "UNKNOWN",
       capacity: facility.capacity_registered,
+      data_first_seen: facility.data_first_seen
+        ? new Date(facility.data_first_seen)
+        : null,
+      data_last_seen: facility.data_last_seen
+        ? new Date(facility.data_last_seen)
+        : null,
     }));
   }
 
@@ -128,8 +162,18 @@ function App() {
       </p>
       <>
         <Paper>
+          <Stack
+            direction="row" // row instead of column
+            spacing={2} // gap between items (theme spacing units)
+            alignItems="center" // vertical alignment
+            flexWrap="wrap" // allow wrapping on small screens
+          ></Stack>
           <MultipleRegionSelect regions={regions} onChange={setRegions} />
           <MultipleStatusSelect statuses={statuses} onChange={setStatuses} />
+          <MultipleFuelTechSelect
+            fueltechs={fueltechs}
+            onChange={setFuelTechs}
+          />
         </Paper>
       </>
       <>

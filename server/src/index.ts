@@ -63,7 +63,7 @@ class FacilityDataManager {
                 status_id: unit.status_id,
                 capacity_registered: unit.capacity_registered,
                 emissions_factor_co2: unit.emissions_factor_co2,
-                data_first_seen: unit.data_first_seen,
+                data_first_seen: unit.data_first_seen ,
                 data_last_seen: unit.data_last_seen,
                 dispatch_type: unit.dispatch_type,
             })

@@ -35,7 +35,7 @@ export interface FacilityUnit {
     facility_name: string;
     network_region: NetworkRegion;
     unit_code: string;
-    fueltech_id: UnitFueltechType | null;
+    fueltech_id: UnitFueltechType;
     status_id: UnitStatusType;
     capacity_registered: number | null;
     emissions_factor_co2: number | null;
