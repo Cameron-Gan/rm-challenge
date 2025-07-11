@@ -18,5 +18,12 @@
     "vitest": "^2.1.8",
     "yarn": "^1.22.19"
   },
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.4.1",
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.2.0",
+    "@mui/x-data-grid": "^8.7.0",
+    "zod": "^3.25.74"
+  }
 }
