@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import {
-  DataGrid,
-  getGridDateOperators,
-  GRID_DATE_COL_DEF,
-  GridEditDateCell,
-  type GridColDef,
-  type GridColTypeDef,
-  type GridFilterInputValueProps,
-} from "@mui/x-data-grid";
+import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import type { FacilityUnit } from "./types.ts";
 import { FUELTECH_LABELS, STATE_LABELS, STATUS_LABELS } from "./maps.ts";
@@ -17,8 +9,17 @@ import MultipleStatusSelect from "./statusFilter.tsx";
 import MultipleFuelTechSelect from "./FuelTechFilter.tsx";
 import { enAU as locale } from "date-fns/locale";
 import { format } from "date-fns";
-import { DateTimePicker, DatePicker } from "@mui/x-date-pickers";
-import { Stack } from "@mui/material";
+import { Stack, ToggleButton } from "@mui/material";
+
+const FOSSIL_LIST = [
+  "coal_black",
+  "coal_brown",
+  "gas_ccgt",
+  "gas_ocgt",
+  "gas_recip",
+  "gas_steam",
+  "gas_wcmg",
+];
 
 function App() {
   const [facilities, setFacilities] = useState<FacilityUnit[]>([]);
@@ -27,6 +28,16 @@ function App() {
   const [statuses, setStatuses] = useState<string[]>([]);
   const [regions, setRegions] = useState<string[]>([]);
   const [fueltechs, setFuelTechs] = useState<string[]>([]);
+  const [fossilFuelsToggle, setFossilFuels] = useState<boolean>(false);
+  
+  // https://mui.com/material-ui/react-toggle-button/#standalone-toggle-button
+  const handleFossilFuelChange = () => {
+    setFossilFuels((prev) => {
+      const next = !prev;
+      setFuelTechs(next ? FOSSIL_LIST : []);
+      return next;
+    });
+  };
 
   useEffect(() => {
     (async () => {
@@ -70,6 +81,7 @@ function App() {
     {
       field: "facility_name",
       headerName: "Facility Name",
+      headerClassName: "column-header",
       width: 200,
       filterable: false,
     },
@@ -87,7 +99,7 @@ function App() {
       rowSpanValueGetter: (value, row) => {
         return row ? `${row.id}-${row.region}` : value;
       },
-      width: 200,
+      width: 100,
       filterable: false,
     },
     {
@@ -123,7 +135,7 @@ function App() {
     },
     {
       field: "capacity",
-      headerName: "Unit Capacity",
+      headerName: "Unit Capacity (MW)",
       rowSpanValueGetter: (value, row) => {
         return row ? `${row.id}-${row.capacity}` : value;
       },
@@ -160,31 +172,40 @@ function App() {
         This is the starter repository for the code challenge provided to you by
         the interviewer.
       </p>
-      <>
-        <Paper>
-          <Stack
-            direction="row" // row instead of column
-            spacing={2} // gap between items (theme spacing units)
-            alignItems="center" // vertical alignment
-            flexWrap="wrap" // allow wrapping on small screens
-          ></Stack>
+      <Paper
+        sx={{
+          width: "100%",
+          "& .column-header": {
+            fontWeight: 1000,
+          },
+        }}
+      >
+        <Stack
+          direction="row" // row instead of column
+          spacing={2} // gap between items (theme spacing units)
+          alignItems="center" // vertical alignment
+          flexWrap="wrap" // allow wrapping on small screens
+        >
           <MultipleRegionSelect regions={regions} onChange={setRegions} />
           <MultipleStatusSelect statuses={statuses} onChange={setStatuses} />
           <MultipleFuelTechSelect
             fueltechs={fueltechs}
             onChange={setFuelTechs}
           />
-        </Paper>
-      </>
-      <>
-        <Paper className="table">
-          <DataGrid
-            columns={table_columns}
-            rows={renderData(filtered)}
-            rowSpanning={true}
-          ></DataGrid>
-        </Paper>
-      </>
+          <ToggleButton
+            value="fossilFuels"
+            selected={fossilFuelsToggle}
+            onChange={handleFossilFuelChange}
+          >
+            Fossil Fuels
+          </ToggleButton>
+        </Stack>
+        <DataGrid
+          columns={table_columns}
+          rows={renderData(filtered)}
+          rowSpanning={true}
+        ></DataGrid>
+      </Paper>
     </>
   );
 }

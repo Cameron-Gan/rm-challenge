@@ -17,19 +17,18 @@ export default function MultipleRegionSelect({
   };
 
   return (
-    <div>
+    <>
       <ToggleButtonGroup
         value={regions}
         onChange={handleChange}
+        aria-label="Region"
       >
-        <ToggleButtonGroup value={regions} onChange={handleChange} aria-label="Region">
-          {Object.entries(STATE_LABELS).map(([regionKey, label]) => (
-            <ToggleButton key={regionKey} value={regionKey}>
-              {label}
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
+        {Object.entries(STATE_LABELS).map(([regionKey, label]) => (
+          <ToggleButton key={regionKey} value={regionKey}>
+            {label}
+          </ToggleButton>
+        ))}
       </ToggleButtonGroup>
-    </div>
+    </>
   );
 }

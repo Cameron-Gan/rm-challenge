@@ -3,6 +3,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
+import { STATUS_LABELS } from "./maps";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -15,7 +16,7 @@ const MenuProps = {
   },
 };
 
-const status_list = ["committed", "operating", "retired"];
+const status_list = Object.keys(STATUS_LABELS);
 
 export default function MultipleStatusSelect({
   statuses,
@@ -34,13 +35,12 @@ export default function MultipleStatusSelect({
     );
   };
 
+  // Borrowed from the Mui Documentation library https://mui.com/material-ui/react-toggle-button/
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-name-label">Status</InputLabel>
+        <InputLabel>Status</InputLabel>
         <Select
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
           multiple
           value={statuses}
           onChange={handleChange}
