@@ -1,13 +1,10 @@
+// Subset of types taken from https://www.npmjs.com/package/openelectricity
+
 export type NetworkCode = "NEM" | "WEM" | "AU";
-export type DataInterval = "5m" | "1h" | "1d" | "7d" | "1M" | "3M" | "season" | "1y" | "fy";
-export type DataPrimaryGrouping = "network" | "network_region";
-export type DataSecondaryGrouping = "fueltech" | "fueltech_group" | "renewable";
-export type DataMetric = "power" | "energy" | "emissions" | "market_value";
-export type MarketMetric = "price" | "demand" | "demand_energy";
-export type Metric = DataMetric | MarketMetric;
+export type NetworkRegion = "NSW1" | "SA1" | "QLD1" | "VIC1" | "TAS1" | "WEM";
 export type UnitStatusType = "committed" | "operating" | "retired";
-export type UnitFueltechType = "battery_charging" | "battery_discharging" | "bioenergy_biogas" | "bioenergy_biomass" | "coal_black" | "coal_brown" | "distillate" | "gas_ccgt" | "gas_ocgt" | "gas_recip" | "gas_steam" | "gas_wcmg" | "hydro" | "pumps" | "solar_rooftop" | "solar_thermal" | "solar_utility" | "nuclear" | "wind" | "wind_offshore" | "interconnector";
-export type UnitFueltechGroupType = "coal" | "gas" | "wind" | "solar" | "battery_charging" | "battery_discharging" | "hydro" | "distillate" | "bioenergy" | "pumps";
+// "battery_discharging" and "interconnector" have been removed here since it was taken out in the BE
+export type UnitFueltechType = "battery_charging" | "bioenergy_biogas" | "bioenergy_biomass" | "coal_black" | "coal_brown" | "distillate" | "gas_ccgt" | "gas_ocgt" | "gas_recip" | "gas_steam" | "gas_wcmg" | "hydro" | "pumps" | "solar_rooftop" | "solar_thermal" | "solar_utility" | "nuclear" | "wind" | "wind_offshore" ;
 export type UnitDispatchType = "GENERATOR" | "LOAD" | "NETWORK" | "INTERCONNECTOR";
 export interface Unit {
     code: string;
@@ -28,7 +25,6 @@ export interface Facility {
     network_region: NetworkRegion;
     units: Unit[];
 }
-export type NetworkRegion = "NSW1" | "SA1" | "QLD1" | "VIC1" | "TAS1" | "WEM";
 
 export interface FacilityUnit {
     facility_code: string;

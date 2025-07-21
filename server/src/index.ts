@@ -74,7 +74,11 @@ class FacilityDataManager {
 
         // remove battery_discharging duplicates since they have the same capacity
         this.facilityUnits = this.facilityUnits.filter((facility_unit) => 
-            facility_unit.fueltech_id !== 'battery_discharging'
+            facility_unit.fueltech_id !== 'battery_discharging' 
+        )
+        // remove interconnector since they are not a fuel type
+        this.facilityUnits = this.facilityUnits.filter((facility_unit) => 
+            facility_unit.fueltech_id !== 'interconnector' 
         )
         
         this.lastFetch = Date.now()

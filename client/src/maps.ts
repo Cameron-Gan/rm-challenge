@@ -4,10 +4,8 @@ import type {
   UnitStatusType,
 } from "./types";
 
-// ChatGTP suggestion
 export const FUELTECH_LABELS: Record<UnitFueltechType, string> = {
   battery_charging: "Battery",
-//   battery_discharging: "Battery Discharging", Removed duplicated battery charging battery discharging in the BE
   bioenergy_biogas: "Bioenergy (Biogas)",
   bioenergy_biomass: "Bioenergy (Biomass)",
   coal_black: "Black Coal",
@@ -27,7 +25,6 @@ export const FUELTECH_LABELS: Record<UnitFueltechType, string> = {
   wind: "Wind (Onshore)",
   wind_offshore: "Wind (Offshore)",
 };
-// end suggestion
 
 export const STATE_LABELS: Record<NetworkRegion, string> = {
   NSW1: "NSW",
