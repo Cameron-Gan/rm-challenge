@@ -7,6 +7,7 @@ interface Env {
 
 export const app = new Hono<{ Bindings: Env }>();
 
+// Flattened Facility and Unit type to make transformations in the FE easier
 interface FacilityUnit {
     facility_code: string;
     facility_name: string;
@@ -53,6 +54,7 @@ class FacilityDataManager {
             return []
         }
 
+        // Flatten response from OpenElectricity to FacilityUnit type
         this.facilityUnits = facilities.data.flatMap((facility) => 
             facility.units.map((unit) => ({
                 facility_name: facility.name,

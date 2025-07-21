@@ -29,7 +29,7 @@ function App() {
   const [regions, setRegions] = useState<string[]>([]);
   const [fueltechs, setFuelTechs] = useState<string[]>([]);
   const [fossilFuelsToggle, setFossilFuels] = useState<boolean>(false);
-  
+
   // https://mui.com/material-ui/react-toggle-button/#standalone-toggle-button
   const handleFossilFuelChange = () => {
     setFossilFuels((prev) => {
@@ -169,8 +169,8 @@ function App() {
     <>
       <h1>RenewMap code challenge</h1>
       <p className="read-the-docs">
-        This is the starter repository for the code challenge provided to you by
-        the interviewer.
+        Explore Australia's past, current and future electricity generation
+        fleet.
       </p>
       <Paper
         sx={{
@@ -184,7 +184,6 @@ function App() {
           direction="row" // row instead of column
           spacing={2} // gap between items (theme spacing units)
           alignItems="center" // vertical alignment
-          flexWrap="wrap" // allow wrapping on small screens
         >
           <MultipleRegionSelect regions={regions} onChange={setRegions} />
           <MultipleStatusSelect statuses={statuses} onChange={setStatuses} />
@@ -193,7 +192,7 @@ function App() {
             onChange={setFuelTechs}
           />
           <ToggleButton
-            value="fossilFuels"
+            value={false}  // ?? not sure what this is setting
             selected={fossilFuelsToggle}
             onChange={handleFossilFuelChange}
           >
