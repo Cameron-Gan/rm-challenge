@@ -5,7 +5,7 @@ import Paper from "@mui/material/Paper";
 import type { FacilityUnit } from "./types.ts";
 import { FUELTECH_LABELS, STATE_LABELS, STATUS_LABELS } from "./maps.ts";
 import MultipleRegionSelect from "./RegionFilter.tsx";
-import MultipleStatusSelect from "./statusFilter.tsx";
+import MultipleStatusSelect from "./StatusFilter.tsx";
 import MultipleFuelTechSelect from "./FuelTechFilter.tsx";
 import { enAU as locale } from "date-fns/locale";
 import { format } from "date-fns";
