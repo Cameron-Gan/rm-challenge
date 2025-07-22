@@ -100,7 +100,7 @@ function App() {
             onChange={setFuelTechs}
           />
           <ToggleButton
-            value={false} // ?? not sure what this is setting
+            value={false}
             selected={fossilFuelsToggle}
             onChange={handleFossilFuelChange}
           >
