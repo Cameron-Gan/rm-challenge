@@ -3,7 +3,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
-import { STATUS_LABELS } from "./maps";
+import { FUELTECH_LABELS } from "../maps";
+import type { UnitFueltechType } from "../types";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -16,16 +17,18 @@ const MenuProps = {
   },
 };
 
-const status_list = Object.keys(STATUS_LABELS);
+const fueltech_ids = Object.keys(FUELTECH_LABELS) as UnitFueltechType[];
 
-export default function MultipleStatusSelect({
-  statuses,
+// Lots of this was taken from https://mui.com/material-ui/react-select/#multiple-select
+// and edited with help from ChatGPT
+export default function MultipleFuelTechSelect({
+  fueltechs,
   onChange,
 }: {
-  statuses: string[];
-  onChange: (newStatuses: string[]) => void;
+  fueltechs: string[];
+  onChange: (newFuelTechs: string[]) => void;
 }) {
-  const handleChange = (event: SelectChangeEvent<typeof statuses>) => {
+  const handleChange = (event: SelectChangeEvent<typeof fueltechs>) => {
     const {
       target: { value },
     } = event;
@@ -35,21 +38,20 @@ export default function MultipleStatusSelect({
     );
   };
 
-  // Borrowed from the Mui Documentation library https://mui.com/material-ui/react-toggle-button/
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel>Status</InputLabel>
+        <InputLabel>FuelTech</InputLabel>
         <Select
           multiple
-          value={statuses}
+          value={fueltechs}
           onChange={handleChange}
-          input={<OutlinedInput label="Status" />}
+          input={<OutlinedInput label="FuelTech" />}
           MenuProps={MenuProps}
         >
-          {status_list.map((status) => (
-            <MenuItem key={status} value={status}>
-              {status}
+          {fueltech_ids.map((fueltech) => (
+            <MenuItem key={fueltech} value={fueltech}>
+              {FUELTECH_LABELS[fueltech]}
             </MenuItem>
           ))}
         </Select>

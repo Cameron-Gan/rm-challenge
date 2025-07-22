@@ -3,8 +3,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
-import { FUELTECH_LABELS } from "./maps";
-import type { UnitFueltechType } from "./types";
+import { STATUS_LABELS } from "../maps";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -17,16 +16,16 @@ const MenuProps = {
   },
 };
 
-const fueltech_ids = Object.keys(FUELTECH_LABELS) as UnitFueltechType[];
+const status_list = Object.keys(STATUS_LABELS);
 
-export default function MultipleFuelTechSelect({
-  fueltechs,
+export default function MultipleStatusSelect({
+  statuses,
   onChange,
 }: {
-  fueltechs: string[];
-  onChange: (newFuelTechs: string[]) => void;
+  statuses: string[];
+  onChange: (newStatuses: string[]) => void;
 }) {
-  const handleChange = (event: SelectChangeEvent<typeof fueltechs>) => {
+  const handleChange = (event: SelectChangeEvent<typeof statuses>) => {
     const {
       target: { value },
     } = event;
@@ -36,22 +35,21 @@ export default function MultipleFuelTechSelect({
     );
   };
 
+  // Borrowed from the Mui Documentation library https://mui.com/material-ui/react-toggle-button/
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-name-label">FuelTech</InputLabel>
+        <InputLabel>Status</InputLabel>
         <Select
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
           multiple
-          value={fueltechs}
+          value={statuses}
           onChange={handleChange}
-          input={<OutlinedInput label="FuelTech" />}
+          input={<OutlinedInput label="Status" />}
           MenuProps={MenuProps}
         >
-          {fueltech_ids.map((fueltech) => (
-            <MenuItem key={fueltech} value={fueltech}>
-              {FUELTECH_LABELS[fueltech]}
+          {status_list.map((status) => (
+            <MenuItem key={status} value={status}>
+              {status}
             </MenuItem>
           ))}
         </Select>

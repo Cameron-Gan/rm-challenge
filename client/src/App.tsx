@@ -1,15 +1,13 @@
+// src/App.tsx
 import { useEffect, useState } from "react";
 import "./App.css";
-import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import type { FacilityUnit } from "./types.ts";
-import { FUELTECH_LABELS, STATE_LABELS, STATUS_LABELS } from "./maps.ts";
-import MultipleRegionSelect from "./RegionFilter.tsx";
-import MultipleStatusSelect from "./StatusFilter.tsx";
-import MultipleFuelTechSelect from "./FuelTechFilter.tsx";
-import { enAU as locale } from "date-fns/locale";
-import { format } from "date-fns";
 import { Stack, ToggleButton } from "@mui/material";
+import type { FacilityUnit } from "./types";
+import MultipleRegionSelect from "./components/RegionFilter";
+import MultipleStatusSelect from "./components/StatusFilter";
+import MultipleFuelTechSelect from "./components/FuelTechFilter";
+import FacilitiesTable from "./components/FacilitiesTable";
 
 const FOSSIL_LIST = [
   "coal_black",
@@ -56,8 +54,6 @@ function App() {
     })();
   }, []);
 
-  /* ---------- 3.  Render states ---------- */
-
   if (loading) return <p>Loading…</p>;
   if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
   if (!facilities.length) return <p>No data</p>;
@@ -76,94 +72,6 @@ function App() {
 
     return inRegion && inStatus && inFuelTech;
   });
-
-  const table_columns: GridColDef[] = [
-    {
-      field: "facility_name",
-      headerName: "Facility Name",
-      headerClassName: "column-header",
-      width: 200,
-      filterable: false,
-    },
-    {
-      field: "fueltech_id",
-      headerName: "Fuel Tech",
-      rowSpanValueGetter: (value, row) => {
-        return row ? `${row.id}-${row.fueltech_id}` : value;
-      },
-      width: 200,
-    },
-    {
-      field: "region",
-      headerName: "State",
-      rowSpanValueGetter: (value, row) => {
-        return row ? `${row.id}-${row.region}` : value;
-      },
-      width: 100,
-      filterable: false,
-    },
-    {
-      field: "status",
-      headerName: "Unit Status",
-      rowSpanValueGetter: (value, row) => {
-        return row ? `${row.id}-${row.status}` : value;
-      },
-      width: 200,
-      filterable: false,
-    },
-    {
-      field: "data_first_seen",
-      valueFormatter: (value) => {
-        if (value) {
-          return format(value, "MM/dd/yyyy", { locale });
-        }
-        return "";
-      },
-      headerName: "Commencement Date",
-      width: 200,
-    },
-    {
-      field: "data_last_seen",
-      valueFormatter: (value) => {
-        if (value) {
-          return format(value, "MM/dd/yyyy", { locale });
-        }
-        return "";
-      },
-      headerName: "Last Updated",
-      width: 200,
-    },
-    {
-      field: "capacity",
-      headerName: "Unit Capacity (MW)",
-      rowSpanValueGetter: (value, row) => {
-        return row ? `${row.id}-${row.capacity}` : value;
-      },
-      width: 200,
-      filterable: false,
-    },
-  ];
-
-  function renderData(data: FacilityUnit[]) {
-    return data.map((facility) => ({
-      id: facility.unit_code,
-      facility_name: facility.facility_name,
-      fueltech_id: facility.fueltech_id
-        ? FUELTECH_LABELS[facility.fueltech_id]
-        : "UNKNOWN",
-      region: STATE_LABELS[facility.network_region],
-      status: facility.status_id
-        ? STATUS_LABELS[facility.status_id]
-        : "UNKNOWN",
-      capacity: facility.capacity_registered,
-      data_first_seen: facility.data_first_seen
-        ? new Date(facility.data_first_seen)
-        : null,
-      data_last_seen: facility.data_last_seen
-        ? new Date(facility.data_last_seen)
-        : null,
-    }));
-  }
 
   return (
     <>
@@ -192,18 +100,14 @@ function App() {
             onChange={setFuelTechs}
           />
           <ToggleButton
-            value={false}  // ?? not sure what this is setting
+            value={false} // ?? not sure what this is setting
             selected={fossilFuelsToggle}
             onChange={handleFossilFuelChange}
           >
             Fossil Fuels
           </ToggleButton>
         </Stack>
-        <DataGrid
-          columns={table_columns}
-          rows={renderData(filtered)}
-          rowSpanning={true}
-        ></DataGrid>
+        <FacilitiesTable facilities={filtered} />
       </Paper>
     </>
   );
