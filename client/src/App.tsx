@@ -37,6 +37,7 @@ function App() {
     });
   };
 
+  // fetch data from the BE
   useEffect(() => {
     (async () => {
       try {
@@ -58,8 +59,7 @@ function App() {
   if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
   if (!facilities.length) return <p>No data</p>;
 
-  /* ---------- 4.  Render table ---------- */
-
+  // Filter table based on state parameters
   const filtered = facilities.filter((facility) => {
     const inRegion =
       regions.length === 0 || regions.includes(facility.network_region);

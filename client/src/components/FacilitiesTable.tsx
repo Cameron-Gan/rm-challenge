@@ -5,10 +5,6 @@ import { FUELTECH_LABELS, STATE_LABELS, STATUS_LABELS } from "../maps";
 import { enAU as locale } from "date-fns/locale";
 import { format } from "date-fns";
 
-type Props = {
-  facilities: FacilityUnit[];
-};
-
 const columns: GridColDef[] = [
   {
     field: "facility_name",
@@ -73,7 +69,11 @@ function prepareRows(data: FacilityUnit[]) {
   }));
 }
 
-export default function FacilitiesTable({ facilities }: Props) {
+export default function FacilitiesTable({
+  facilities,
+}: {
+  facilities: FacilityUnit[];
+}) {
   return (
     <DataGrid
       columns={columns}
